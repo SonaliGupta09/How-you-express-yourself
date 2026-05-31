@@ -1,0 +1,601 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Do You Express Yourself Around People?</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background:#0f1115;
+    color:white;
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+}
+
+.container{
+    width:100%;
+    max-width:800px;
+}
+
+.card{
+    background:#171a21;
+    padding:35px;
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+h1,h2,h3{
+    margin-top:0;
+}
+
+.subtitle{
+    color:#b0b7c3;
+    line-height:1.7;
+}
+
+.progress{
+    margin-bottom:25px;
+    color:#9ba3af;
+}
+
+.question{
+    font-size:24px;
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+.option{
+    border:1px solid #2d3340;
+    padding:18px;
+    border-radius:14px;
+    margin-bottom:15px;
+    cursor:pointer;
+    transition:0.3s;
+    line-height:1.5;
+}
+
+.option:hover{
+    background:#232836;
+}
+
+.selected{
+    background:#2e3d59;
+    border:1px solid #7aa2ff;
+}
+
+button{
+    margin-top:25px;
+    background:white;
+    color:black;
+    border:none;
+    padding:14px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.result-section{
+    margin-bottom:35px;
+}
+
+.result-title{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.result-sub{
+    color:#c5ccd8;
+    line-height:1.8;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #2d3340;
+    margin:30px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card" id="intro">
+
+<h1>How Do You Express Yourself Around People?</h1>
+
+<p class="subtitle">
+This assessment is not about labeling you as introvert or extrovert.
+It explores something deeper:
+how naturally you express yourself socially, and whether your silence comes from personality, comfort, or self-protection.
+</p>
+
+<button onclick="startQuiz()">Begin Assessment</button>
+
+</div>
+
+<div class="card" id="quiz" style="display:none;">
+
+<div class="progress" id="progress"></div>
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+<button onclick="nextQuestion()">Next</button>
+
+</div>
+
+<div class="card" id="result" style="display:none;"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+question:`It’s your free day. You wake up with no plans, feeling relaxed and comfortable in your own space.
+
+Suddenly, your best friend texts you:
+
+"Come to this party tonight. It’s my friend’s birthday. You won’t know most people there, but it’ll be fun."
+
+What is your first genuine reaction?`,
+options:[
+{text:"Okay, if my friend is there, I’ll probably enjoy it.",type:"CE"},
+{text:"Maybe. It depends on my mood and energy.",type:"NR"},
+{text:"I immediately start thinking of reasons to avoid going.",type:"US",hidden:"Self-Monitoring"},
+{text:"Sounds exciting. I’m curious already.",type:"EE"}
+]
+},
+
+{
+question:`After thinking for a while, you decide to go.
+
+Now while getting ready, what occupies your mind the most?`,
+options:[
+{text:"Wondering how the evening will feel.",type:"NR"},
+{text:"Deciding whether the vibe will match your mood.",type:"CE",hidden:"Emotional Safety"},
+{text:"Thinking about how awkward or uncomfortable it may become.",type:"US",hidden:"Fear of Misinterpretation"},
+{text:"Imagining the people and conversations you may have.",type:"EE"}
+]
+},
+
+{
+question:`You finally arrive at the party.
+
+The music is loud, people are already talking in groups, and the atmosphere feels socially active.
+
+Your immediate internal reaction is:`,
+options:[
+{text:"Observing everything quietly first.",type:"NR"},
+{text:"Slowly adjusting to the environment.",type:"CE"},
+{text:"Becoming highly aware of yourself and how you may appear.",type:"US",hidden:"Self-Monitoring"},
+{text:"Feeling energized by the atmosphere.",type:"EE"}
+]
+},
+
+{
+question:`You notice someone you vaguely know from before.
+
+They’ve seen you too, but neither of you has approached yet.
+
+What are you most likely to do?`,
+options:[
+{text:"Walk up and greet them calmly.",type:"EE"},
+{text:"Wait for a natural moment to interact.",type:"CE"},
+{text:"Avoid eye contact to escape possible awkwardness.",type:"US",hidden:"Fear of Misinterpretation"},
+{text:"Observe first before deciding.",type:"NR"}
+]
+},
+
+{
+question:`Your friend introduces you to a small group conversation.
+
+People are laughing and speaking comfortably.
+
+What are you internally focused on?`,
+options:[
+{text:"Listening and understanding the discussion.",type:"NR"},
+{text:"Observing the emotional vibe before speaking much.",type:"CE",hidden:"Emotional Safety"},
+{text:"Monitoring yourself and how you sound.",type:"US",hidden:"Self-Monitoring"},
+{text:"Actively engaging with the energy of the group.",type:"EE"}
+]
+},
+
+{
+question:`Someone suddenly asks:
+"So what do you do?"
+
+What usually happens inside you before answering?`,
+options:[
+{text:"I answer naturally but briefly.",type:"NR"},
+{text:"I think about how much I want to share.",type:"CE"},
+{text:"I become self-conscious about how I’ll be perceived.",type:"US",hidden:"Self-Monitoring"},
+{text:"I enjoy talking and building conversation from it.",type:"EE"}
+]
+},
+
+{
+question:`The conversation becomes more personal.
+
+People start sharing opinions and stories.
+
+Your natural tendency is:`,
+options:[
+{text:"Share selectively but honestly.",type:"NR"},
+{text:"Open up depending on comfort.",type:"CE",hidden:"Emotional Safety"},
+{text:"Hold back because you overthink how your words may land.",type:"US",hidden:"Fear of Misinterpretation"},
+{text:"Express openly and comfortably.",type:"EE"}
+]
+},
+
+{
+question:`At one point, everyone around you seems socially effortless.
+
+What thought feels closest to your experience?`,
+options:[
+{text:"I enjoy being quieter than most people.",type:"NR"},
+{text:"Comfort matters more than social skill to me.",type:"CE"},
+{text:"I start comparing my behavior with others.",type:"US",hidden:"Self-Monitoring"},
+{text:"I feel naturally connected to the interaction.",type:"EE"}
+]
+},
+
+{
+question:`Someone makes a joke about you in a playful way and the group laughs.
+
+Your first internal reaction is:`,
+options:[
+{text:"I take it lightly.",type:"EE"},
+{text:"Depends on the intention and comfort level.",type:"CE"},
+{text:"I immediately become self-aware.",type:"US",hidden:"Fear of Misinterpretation"},
+{text:"I smile quietly and move on.",type:"NR"}
+]
+},
+
+{
+question:`As the party becomes louder and more energetic, how do you feel?`,
+options:[
+{text:"Mentally overstimulated.",type:"NR",hidden:"Energy Protector"},
+{text:"Socially tired but still okay.",type:"CE"},
+{text:"Exhausted from constantly managing yourself socially.",type:"US",hidden:"Self-Monitoring"},
+{text:"More energized by the environment.",type:"EE"}
+]
+},
+
+{
+question:`You step away from the crowd for a few minutes.
+
+Why?`,
+options:[
+{text:"I need quiet to recharge.",type:"NR",hidden:"Energy Protector"},
+{text:"I like balancing interaction with personal space.",type:"CE"},
+{text:"I feel mentally overwhelmed by social pressure.",type:"US",hidden:"Overprocessor"},
+{text:"I rarely feel the need to step away.",type:"EE"}
+]
+},
+
+{
+question:`Later, someone you found interesting starts talking to you one-on-one.
+
+What changes most in your behavior?`,
+options:[
+{text:"I become calmer and more genuine.",type:"NR"},
+{text:"Comfort slowly helps me open up.",type:"CE",hidden:"Emotional Safety"},
+{text:"I still worry about saying the wrong thing.",type:"US",hidden:"Self-Monitoring"},
+{text:"I express myself naturally and confidently.",type:"EE"}
+]
+},
+
+{
+question:`The party ends and you return home.
+
+What happens next?`,
+options:[
+{text:"I enjoy the silence and solitude afterward.",type:"NR"},
+{text:"I reflect casually on the experience.",type:"CE"},
+{text:"I replay conversations and analyze myself deeply.",type:"US",hidden:"Overprocessor"},
+{text:"I still feel socially energized.",type:"EE"}
+]
+},
+
+{
+question:`The next morning, while thinking about the evening, which statement feels most true?`,
+options:[
+{text:"I liked parts of it, but I still deeply value my own space.",type:"NR"},
+{text:"The experience mostly depended on comfort and connection.",type:"CE"},
+{text:"I spent too much energy monitoring myself.",type:"US",hidden:"Self-Monitoring"},
+{text:"I genuinely enjoy expressing myself around people.",type:"EE"}
+]
+},
+
+{
+question:`Finally, which sentence feels closest to your deeper truth?`,
+options:[
+{text:"I naturally express myself quietly.",type:"NR"},
+{text:"I express myself differently depending on people and emotional safety.",type:"CE",hidden:"Emotional Safety"},
+{text:"I often hold back more than I truly want to.",type:"US",hidden:"Fear of Misinterpretation"},
+{text:"I feel most like myself when I can openly engage and express.",type:"EE"}
+]
+}
+
+];
+
+let currentQuestion = 0;
+let selected = null;
+
+let scores = {
+NR:0,
+CE:0,
+US:0,
+EE:0
+};
+
+let hiddenScores = {};
+
+function startQuiz(){
+document.getElementById("intro").style.display="none";
+document.getElementById("quiz").style.display="block";
+showQuestion();
+}
+
+function showQuestion(){
+
+const q = questions[currentQuestion];
+
+document.getElementById("progress").innerHTML =
+`Question ${currentQuestion+1} of ${questions.length}`;
+
+document.getElementById("question").innerText = q.question;
+
+let optionsHTML = "";
+
+q.options.forEach((option,index)=>{
+
+optionsHTML += `
+<div class="option" onclick="selectOption(${index}, this)">
+${option.text}
+</div>
+`;
+
+});
+
+document.getElementById("options").innerHTML = optionsHTML;
+
+selected = null;
+
+}
+
+function selectOption(index, element){
+
+selected = questions[currentQuestion].options[index];
+
+document.querySelectorAll(".option").forEach(el=>{
+el.classList.remove("selected");
+});
+
+element.classList.add("selected");
+
+}
+
+function nextQuestion(){
+
+if(!selected){
+alert("Please select an option.");
+return;
+}
+
+scores[selected.type]++;
+
+if(selected.hidden){
+
+if(hiddenScores[selected.hidden]){
+hiddenScores[selected.hidden]++;
+}else{
+hiddenScores[selected.hidden]=1;
+}
+
+}
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+showQuestion();
+}else{
+showResult();
+}
+
+}
+
+function getHighest(obj){
+
+return Object.keys(obj).reduce((a,b)=>
+obj[a] > obj[b] ? a : b
+);
+
+}
+
+function showResult(){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+
+const mainType = getHighest(scores);
+
+const hiddenLayer = Object.keys(hiddenScores).length > 0
+? getHighest(hiddenScores)
+: "None";
+
+let resultHTML = "";
+
+if(mainType==="NR"){
+
+resultHTML = `
+<div class="result-title">🌿 Quietly Expressive</div>
+
+<div class="result-section">
+<h3>🧠 What this says about you</h3>
+<p class="result-sub">
+You naturally express yourself in calmer, more selective ways.
+
+You don’t always feel the need to fill space, speak constantly, or externally process every thought. Your silence often comes from preference—not fear.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
+<p class="result-sub">
+You subconsciously protect your energy and emotional bandwidth more than most people realize.
+</p>
+</div>
+
+<div class="result-section">
+<h3>⚠️ Your Blind Spot</h3>
+<p class="result-sub">
+Sometimes people may mistake your quietness for disinterest.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🔄 Reflection</h3>
+<p class="result-sub">
+Not every meaningful connection requires high energy.
+</p>
+</div>
+`;
+
+}
+
+if(mainType==="CE"){
+
+resultHTML = `
+<div class="result-title">⚖️ Context-Driven Expressive</div>
+
+<div class="result-section">
+<h3>🧠 What this says about you</h3>
+<p class="result-sub">
+You express yourself differently depending on emotional safety, comfort, and connection.
+
+You are neither fully reserved nor fully expressive all the time.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
+<p class="result-sub">
+Your openness depends deeply on the emotional atmosphere around you.
+</p>
+</div>
+
+<div class="result-section">
+<h3>⚠️ Your Blind Spot</h3>
+<p class="result-sub">
+Sometimes you wait too long for perfect comfort before expressing yourself fully.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🔄 Reflection</h3>
+<p class="result-sub">
+The right environment matters—but sometimes connection starts when you risk expression first.
+</p>
+</div>
+`;
+
+}
+
+if(mainType==="US"){
+
+resultHTML = `
+<div class="result-title">🌊 Underexpressed Self</div>
+
+<div class="result-section">
+<h3>🧠 What this says about you</h3>
+<p class="result-sub">
+You may be holding yourself back more than you realize.
+
+A lot of your silence comes from self-monitoring, overthinking, emotional caution, or fear of judgment—not lack of personality.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
+<p class="result-sub">
+You often evaluate yourself while interacting instead of fully experiencing the interaction naturally.
+</p>
+</div>
+
+<div class="result-section">
+<h3>⚠️ Your Blind Spot</h3>
+<p class="result-sub">
+You may mistake emotional protection for personality.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🔄 Reflection</h3>
+<p class="result-sub">
+Growth may not require becoming louder—only reducing self-monitoring.
+</p>
+</div>
+`;
+
+}
+
+if(mainType==="EE"){
+
+resultHTML = `
+<div class="result-title">🔥 Naturally Expressive</div>
+
+<div class="result-section">
+<h3>🧠 What this says about you</h3>
+<p class="result-sub">
+You naturally connect, engage, and process life outwardly.
+
+Expression feels energizing rather than draining for you.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
+<p class="result-sub">
+You naturally create energy and movement in social environments.
+</p>
+</div>
+
+<div class="result-section">
+<h3>⚠️ Your Blind Spot</h3>
+<p class="result-sub">
+Sometimes constant engagement can distance you from quieter reflection.
+</p>
+</div>
+
+<div class="result-section">
+<h3>🔄 Reflection</h3>
+<p class="result-sub">
+Expression is your strength. Depth sometimes grows in quieter spaces too.
+</p>
+</div>
+`;
+
+}
+
+document.getElementById("result").innerHTML = resultHTML;
+
+}
+
+</script>
+
+</body>
+</html>
+```
