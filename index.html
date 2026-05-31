@@ -1,601 +1,772 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How Do You Express Yourself Around People?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --ink:#0d0d0d;
+  --paper:#f5f2ed;
+  --cream:#ede9e2;
+  --muted:#9a9390;
+  --accent:#2c2c2c;
+  --gold:#b8956a;
+  --gold-light:#e8d9c4;
+  --line:rgba(0,0,0,0.1);
+}
+
 body{
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background:#0f1115;
-    color:white;
-    display:flex;
-    justify-content:center;
-    padding:40px 20px;
+  font-family:'DM Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:0;
+  overflow-x:hidden;
 }
 
-.container{
-    width:100%;
-    max-width:800px;
+.shell{
+  width:100%;
+  max-width:680px;
+  min-height:100vh;
+  position:relative;
 }
 
-.card{
-    background:#171a21;
-    padding:35px;
-    border-radius:22px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+/* ── NOISE TEXTURE ─────────────────────────────────── */
+.shell::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
 }
 
-h1,h2,h3{
-    margin-top:0;
+/* ── INTRO ─────────────────────────────────────────── */
+#intro{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:100vh;
+  padding:60px 48px 80px;
+  position:relative;
+  z-index:1;
+  animation:fadeUp 0.8s ease both;
 }
 
-.subtitle{
-    color:#b0b7c3;
-    line-height:1.7;
+.eyebrow{
+  font-family:'DM Sans',sans-serif;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:40px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.progress{
-    margin-bottom:25px;
-    color:#9ba3af;
+.eyebrow::after{
+  content:'';
+  flex:1;
+  max-width:60px;
+  height:1px;
+  background:var(--gold);
+  opacity:0.5;
 }
 
-.question{
-    font-size:24px;
-    line-height:1.6;
-    margin-bottom:30px;
+.intro-headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,44px);
+  font-weight:300;
+  line-height:1.12;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+  margin-bottom:32px;
+}
+
+.intro-headline em{
+  font-style:italic;
+  color:var(--gold);
+}
+
+.intro-body{
+  font-size:13px;
+  font-weight:300;
+  color:var(--muted);
+  line-height:1.8;
+  max-width:440px;
+  margin-bottom:56px;
+  border-left:2px solid var(--gold-light);
+  padding-left:20px;
+}
+
+.intro-meta{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  margin-bottom:40px;
+}
+
+.meta-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.04em;
+}
+
+.meta-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--gold);
+  opacity:0.6;
+}
+
+.btn-start{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  background:var(--ink);
+  color:var(--paper);
+  border:none;
+  padding:16px 32px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.btn-start::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--gold);
+  transform:translateX(-100%);
+  transition:transform 0.4s ease;
+}
+
+.btn-start:hover::before{transform:translateX(0);}
+.btn-start:hover{color:var(--paper);}
+
+.btn-start span{position:relative;z-index:1;}
+
+.btn-arrow{
+  position:relative;
+  z-index:1;
+  width:18px;
+  height:1px;
+  background:currentColor;
+  transition:width 0.3s ease;
+}
+.btn-arrow::after{
+  content:'';
+  position:absolute;
+  right:-1px;
+  top:-3px;
+  width:7px;
+  height:7px;
+  border-right:1px solid currentColor;
+  border-top:1px solid currentColor;
+  transform:rotate(45deg);
+}
+.btn-start:hover .btn-arrow{width:26px;}
+
+/* ── DECORATIVE LINES ──────────────────────────────── */
+.deco-lines{
+  position:fixed;
+  top:0;
+  right:0;
+  width:200px;
+  height:100vh;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.06;
+}
+
+/* ── QUIZ SCREEN ───────────────────────────────────── */
+#quiz{
+  display:none;
+  min-height:100vh;
+  padding:0 48px 80px;
+  position:relative;
+  z-index:1;
+}
+
+.quiz-header{
+  padding:40px 0 48px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:48px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+}
+
+.quiz-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;
+  font-weight:400;
+  font-style:italic;
+  color:var(--muted);
+}
+
+.progress-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.progress-num{
+  font-size:11px;
+  letter-spacing:0.1em;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.progress-track{
+  width:80px;
+  height:1px;
+  background:var(--line);
+  position:relative;
+}
+
+.progress-fill{
+  position:absolute;
+  left:0;top:0;height:100%;
+  background:var(--gold);
+  transition:width 0.5s ease;
+}
+
+.question-num{
+  font-size:10px;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:500;
+  margin-bottom:20px;
+}
+
+.question-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(17px,3vw,22px);
+  font-weight:300;
+  line-height:1.4;
+  color:var(--ink);
+  margin-bottom:40px;
+  white-space:pre-line;
+}
+
+/* ── OPTIONS ───────────────────────────────────────── */
+.options-grid{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:48px;
 }
 
 .option{
-    border:1px solid #2d3340;
-    padding:18px;
-    border-radius:14px;
-    margin-bottom:15px;
-    cursor:pointer;
-    transition:0.3s;
-    line-height:1.5;
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  padding:20px 22px;
+  border:1px solid var(--line);
+  background:transparent;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  position:relative;
+  overflow:hidden;
+  text-align:left;
 }
 
-.option:hover{
-    background:#232836;
+.option::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--cream);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.3s ease;
 }
 
-.selected{
-    background:#2e3d59;
-    border:1px solid #7aa2ff;
+.option:hover::before{transform:scaleX(1);}
+
+.option.selected{
+  border-color:var(--gold);
+  background:var(--gold-light);
+}
+.option.selected::before{transform:scaleX(0);}
+
+.opt-marker{
+  width:20px;
+  height:20px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  flex-shrink:0;
+  margin-top:2px;
+  position:relative;
+  z-index:1;
+  transition:all 0.25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-button{
-    margin-top:25px;
-    background:white;
-    color:black;
-    border:none;
-    padding:14px 22px;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:15px;
+.option.selected .opt-marker{
+  border-color:var(--gold);
+  background:var(--gold);
 }
 
-.result-section{
-    margin-bottom:35px;
+.opt-check{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:white;
+  opacity:0;
+  transition:opacity 0.2s ease;
+}
+.option.selected .opt-check{opacity:1;}
+
+.opt-label{
+  font-size:13px;
+  font-weight:300;
+  line-height:1.65;
+  color:var(--ink);
+  position:relative;
+  z-index:1;
+  transition:color 0.25s;
 }
 
-.result-title{
-    font-size:34px;
-    margin-bottom:10px;
+.option.selected .opt-label{color:var(--accent);}
+.option:hover .opt-label{color:var(--accent);}
+
+.btn-next{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  background:transparent;
+  color:var(--ink);
+  border:1px solid var(--ink);
+  padding:14px 28px;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
 }
 
-.result-sub{
-    color:#c5ccd8;
-    line-height:1.8;
+.btn-next::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--ink);
+  transform:translateY(100%);
+  transition:transform 0.35s ease;
 }
 
-hr{
-    border:none;
-    border-top:1px solid #2d3340;
-    margin:30px 0;
+.btn-next:hover::before{transform:translateY(0);}
+.btn-next:hover{color:var(--paper);}
+.btn-next span,.btn-next .btn-arrow{position:relative;z-index:1;}
+
+/* ── RESULT SCREEN ─────────────────────────────────── */
+#result{
+  display:none;
+  min-height:100vh;
+  padding:0 48px 80px;
+  position:relative;
+  z-index:1;
+}
+
+.result-header{
+  padding:40px 0 48px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:56px;
+}
+
+.result-label{
+  font-size:10px;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:500;
+  margin-bottom:16px;
+}
+
+.result-type{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,5vw,40px);
+  font-weight:300;
+  line-height:1.1;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+
+.result-type-icon{
+  font-size:22px;
+  margin-bottom:8px;
+  display:block;
+
+.result-rule{
+  width:48px;
+  height:1px;
+  background:var(--gold);
+  margin-top:24px;
+}
+
+.result-blocks{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.result-block{
+  padding:32px 0;
+  border-bottom:1px solid var(--line);
+  animation:fadeUp 0.6s ease both;
+}
+
+.result-block:nth-child(1){animation-delay:0.1s;}
+.result-block:nth-child(2){animation-delay:0.2s;}
+.result-block:nth-child(3){animation-delay:0.3s;}
+.result-block:nth-child(4){animation-delay:0.4s;}
+
+.block-tag{
+  font-size:9px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.block-tag::before{
+  content:'';
+  width:16px;
+  height:1px;
+  background:var(--muted);
+  opacity:0.5;
+}
+
+.block-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:14px;
+}
+
+.block-body{
+  font-size:13px;
+  font-weight:300;
+  line-height:1.85;
+  color:var(--muted);
+}
+
+.highlight-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--gold-light);
+  color:var(--gold);
+  border:1px solid var(--gold);
+  padding:4px 12px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.06em;
+  margin-bottom:12px;
+}
+
+.retake-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  margin-top:48px;
+  background:transparent;
+  color:var(--muted);
+  border:none;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:0;
+  transition:color 0.3s;
+}
+.retake-btn:hover{color:var(--gold);}
+
+/* ── ANIMATIONS ────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.slide-in{animation:fadeUp 0.45s ease both;}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media(max-width:560px){
+  #intro,#quiz,#result{padding-left:24px;padding-right:24px;}
 }
 
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<svg class="deco-lines" viewBox="0 0 200 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <line x1="40" y1="0" x2="40" y2="800" stroke="#000" stroke-width="0.5"/>
+  <line x1="80" y1="0" x2="80" y2="800" stroke="#000" stroke-width="0.5"/>
+  <line x1="120" y1="0" x2="120" y2="800" stroke="#000" stroke-width="0.5"/>
+  <line x1="160" y1="0" x2="160" y2="800" stroke="#000" stroke-width="0.5"/>
+</svg>
 
-<div class="card" id="intro">
+<div class="shell">
 
-<h1>How Do You Express Yourself Around People?</h1>
+<!-- INTRO -->
+<section id="intro">
+  <div class="eyebrow">Self-Awareness Assessment</div>
 
-<p class="subtitle">
-This assessment is not about labeling you as introvert or extrovert.
-It explores something deeper:
-how naturally you express yourself socially, and whether your silence comes from personality, comfort, or self-protection.
-</p>
+  <h1 class="intro-headline">
+    How do you <em>express yourself</em><br>around people?
+  </h1>
 
-<button onclick="startQuiz()">Begin Assessment</button>
+  <p class="intro-body">
+    This is not about labeling you as introvert or extrovert.
+    It explores something deeper — how naturally you express yourself
+    socially, and whether your silence comes from personality,
+    comfort, or self-protection.
+  </p>
 
-</div>
+  <div class="intro-meta">
+    <div class="meta-item"><div class="meta-dot"></div>15 Questions</div>
+    <div class="meta-item"><div class="meta-dot"></div>5 Minutes</div>
+    <div class="meta-item"><div class="meta-dot"></div>No Right Answers</div>
+  </div>
 
-<div class="card" id="quiz" style="display:none;">
+  <button class="btn-start" onclick="startQuiz()">
+    <span>Begin Assessment</span>
+    <div class="btn-arrow"></div>
+  </button>
+</section>
 
-<div class="progress" id="progress"></div>
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="quiz-header">
+    <div class="quiz-brand">Expression Assessment</div>
+    <div class="progress-wrap">
+      <div class="progress-num" id="prog-text">1 / 15</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
 
-<div class="question" id="question"></div>
+  <div id="q-wrap">
+    <div class="question-num" id="q-num"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options-grid" id="options"></div>
+    <button class="btn-next" onclick="nextQuestion()">
+      <span>Continue</span>
+      <div class="btn-arrow"></div>
+    </button>
+  </div>
+</section>
 
-<div id="options"></div>
-
-<button onclick="nextQuestion()">Next</button>
-
-</div>
-
-<div class="card" id="result" style="display:none;"></div>
+<!-- RESULT -->
+<section id="result">
+  <div class="quiz-header">
+    <div class="quiz-brand">Expression Assessment</div>
+    <div class="result-label">Your Result</div>
+  </div>
+  <div id="result-inner"></div>
+</section>
 
 </div>
 
 <script>
 
-const questions = [
+const questions=[{question:`It's your free day. You wake up with no plans, feeling relaxed in your own space.\n\nSuddenly, your best friend texts:\n\n"Come to this party tonight. It's my friend's birthday — you won't know most people there, but it'll be fun."\n\nWhat is your first genuine reaction?`,options:[{text:"Okay, if my friend is there, I'll probably enjoy it.",type:"CE"},{text:"Maybe. It depends on my mood and energy.",type:"NR"},{text:"I immediately start thinking of reasons to avoid going.",type:"US",hidden:"Self-Monitoring"},{text:"Sounds exciting. I'm curious already.",type:"EE"}]},{question:`After thinking, you decide to go.\n\nNow while getting ready, what occupies your mind the most?`,options:[{text:"Wondering how the evening will feel.",type:"NR"},{text:"Deciding whether the vibe will match your mood.",type:"CE",hidden:"Emotional Safety"},{text:"Thinking about how awkward or uncomfortable it may become.",type:"US",hidden:"Fear of Misinterpretation"},{text:"Imagining the people and conversations you may have.",type:"EE"}]},{question:`You arrive at the party.\n\nThe music is loud, people are talking in groups, the atmosphere feels socially active.\n\nYour immediate internal reaction is:`,options:[{text:"Observing everything quietly first.",type:"NR"},{text:"Slowly adjusting to the environment.",type:"CE"},{text:"Becoming highly aware of yourself and how you may appear.",type:"US",hidden:"Self-Monitoring"},{text:"Feeling energized by the atmosphere.",type:"EE"}]},{question:`You notice someone you vaguely know.\n\nThey've seen you too, but neither of you has approached yet.\n\nWhat are you most likely to do?`,options:[{text:"Walk up and greet them calmly.",type:"EE"},{text:"Wait for a natural moment to interact.",type:"CE"},{text:"Avoid eye contact to escape possible awkwardness.",type:"US",hidden:"Fear of Misinterpretation"},{text:"Observe first before deciding.",type:"NR"}]},{question:`Your friend introduces you to a small group conversation.\n\nPeople are laughing and speaking comfortably.\n\nWhat are you internally focused on?`,options:[{text:"Listening and understanding the discussion.",type:"NR"},{text:"Observing the emotional vibe before speaking much.",type:"CE",hidden:"Emotional Safety"},{text:"Monitoring yourself and how you sound.",type:"US",hidden:"Self-Monitoring"},{text:"Actively engaging with the energy of the group.",type:"EE"}]},{question:`Someone suddenly asks:\n"So what do you do?"\n\nWhat usually happens inside you before answering?`,options:[{text:"I answer naturally but briefly.",type:"NR"},{text:"I think about how much I want to share.",type:"CE"},{text:"I become self-conscious about how I'll be perceived.",type:"US",hidden:"Self-Monitoring"},{text:"I enjoy talking and building conversation from it.",type:"EE"}]},{question:`The conversation becomes more personal.\n\nPeople start sharing opinions and stories.\n\nYour natural tendency is:`,options:[{text:"Share selectively but honestly.",type:"NR"},{text:"Open up depending on comfort.",type:"CE",hidden:"Emotional Safety"},{text:"Hold back because you overthink how your words may land.",type:"US",hidden:"Fear of Misinterpretation"},{text:"Express openly and comfortably.",type:"EE"}]},{question:`At one point, everyone around you seems socially effortless.\n\nWhat thought feels closest to your experience?`,options:[{text:"I enjoy being quieter than most people.",type:"NR"},{text:"Comfort matters more than social skill to me.",type:"CE"},{text:"I start comparing my behavior with others.",type:"US",hidden:"Self-Monitoring"},{text:"I feel naturally connected to the interaction.",type:"EE"}]},{question:`Someone makes a playful joke about you and the group laughs.\n\nYour first internal reaction is:`,options:[{text:"I take it lightly.",type:"EE"},{text:"Depends on the intention and comfort level.",type:"CE"},{text:"I immediately become self-aware.",type:"US",hidden:"Fear of Misinterpretation"},{text:"I smile quietly and move on.",type:"NR"}]},{question:`As the party becomes louder and more energetic, how do you feel?`,options:[{text:"Mentally overstimulated.",type:"NR",hidden:"Energy Protector"},{text:"Socially tired but still okay.",type:"CE"},{text:"Exhausted from constantly managing myself socially.",type:"US",hidden:"Self-Monitoring"},{text:"More energized by the environment.",type:"EE"}]},{question:`You step away from the crowd for a few minutes.\n\nWhy?`,options:[{text:"I need quiet to recharge.",type:"NR",hidden:"Energy Protector"},{text:"I like balancing interaction with personal space.",type:"CE"},{text:"I feel mentally overwhelmed by social pressure.",type:"US",hidden:"Overprocessor"},{text:"I rarely feel the need to step away.",type:"EE"}]},{question:`Later, someone you found interesting starts talking to you one-on-one.\n\nWhat changes most in your behavior?`,options:[{text:"I become calmer and more genuine.",type:"NR"},{text:"Comfort slowly helps me open up.",type:"CE",hidden:"Emotional Safety"},{text:"I still worry about saying the wrong thing.",type:"US",hidden:"Self-Monitoring"},{text:"I express myself naturally and confidently.",type:"EE"}]},{question:`The party ends and you return home.\n\nWhat happens next?`,options:[{text:"I enjoy the silence and solitude afterward.",type:"NR"},{text:"I reflect casually on the experience.",type:"CE"},{text:"I replay conversations and analyze myself deeply.",type:"US",hidden:"Overprocessor"},{text:"I still feel socially energized.",type:"EE"}]},{question:`The next morning, thinking about the evening — which statement feels most true?`,options:[{text:"I liked parts of it, but I still deeply value my own space.",type:"NR"},{text:"The experience mostly depended on comfort and connection.",type:"CE"},{text:"I spent too much energy monitoring myself.",type:"US",hidden:"Self-Monitoring"},{text:"I genuinely enjoy expressing myself around people.",type:"EE"}]},{question:`Finally — which sentence feels closest to your deeper truth?`,options:[{text:"I naturally express myself quietly.",type:"NR"},{text:"I express myself differently depending on people and emotional safety.",type:"CE",hidden:"Emotional Safety"},{text:"I often hold back more than I truly want to.",type:"US",hidden:"Fear of Misinterpretation"},{text:"I feel most like myself when I can openly engage and express.",type:"EE"}]}];
 
-{
-question:`It’s your free day. You wake up with no plans, feeling relaxed and comfortable in your own space.
-
-Suddenly, your best friend texts you:
-
-"Come to this party tonight. It’s my friend’s birthday. You won’t know most people there, but it’ll be fun."
-
-What is your first genuine reaction?`,
-options:[
-{text:"Okay, if my friend is there, I’ll probably enjoy it.",type:"CE"},
-{text:"Maybe. It depends on my mood and energy.",type:"NR"},
-{text:"I immediately start thinking of reasons to avoid going.",type:"US",hidden:"Self-Monitoring"},
-{text:"Sounds exciting. I’m curious already.",type:"EE"}
-]
-},
-
-{
-question:`After thinking for a while, you decide to go.
-
-Now while getting ready, what occupies your mind the most?`,
-options:[
-{text:"Wondering how the evening will feel.",type:"NR"},
-{text:"Deciding whether the vibe will match your mood.",type:"CE",hidden:"Emotional Safety"},
-{text:"Thinking about how awkward or uncomfortable it may become.",type:"US",hidden:"Fear of Misinterpretation"},
-{text:"Imagining the people and conversations you may have.",type:"EE"}
-]
-},
-
-{
-question:`You finally arrive at the party.
-
-The music is loud, people are already talking in groups, and the atmosphere feels socially active.
-
-Your immediate internal reaction is:`,
-options:[
-{text:"Observing everything quietly first.",type:"NR"},
-{text:"Slowly adjusting to the environment.",type:"CE"},
-{text:"Becoming highly aware of yourself and how you may appear.",type:"US",hidden:"Self-Monitoring"},
-{text:"Feeling energized by the atmosphere.",type:"EE"}
-]
-},
-
-{
-question:`You notice someone you vaguely know from before.
-
-They’ve seen you too, but neither of you has approached yet.
-
-What are you most likely to do?`,
-options:[
-{text:"Walk up and greet them calmly.",type:"EE"},
-{text:"Wait for a natural moment to interact.",type:"CE"},
-{text:"Avoid eye contact to escape possible awkwardness.",type:"US",hidden:"Fear of Misinterpretation"},
-{text:"Observe first before deciding.",type:"NR"}
-]
-},
-
-{
-question:`Your friend introduces you to a small group conversation.
-
-People are laughing and speaking comfortably.
-
-What are you internally focused on?`,
-options:[
-{text:"Listening and understanding the discussion.",type:"NR"},
-{text:"Observing the emotional vibe before speaking much.",type:"CE",hidden:"Emotional Safety"},
-{text:"Monitoring yourself and how you sound.",type:"US",hidden:"Self-Monitoring"},
-{text:"Actively engaging with the energy of the group.",type:"EE"}
-]
-},
-
-{
-question:`Someone suddenly asks:
-"So what do you do?"
-
-What usually happens inside you before answering?`,
-options:[
-{text:"I answer naturally but briefly.",type:"NR"},
-{text:"I think about how much I want to share.",type:"CE"},
-{text:"I become self-conscious about how I’ll be perceived.",type:"US",hidden:"Self-Monitoring"},
-{text:"I enjoy talking and building conversation from it.",type:"EE"}
-]
-},
-
-{
-question:`The conversation becomes more personal.
-
-People start sharing opinions and stories.
-
-Your natural tendency is:`,
-options:[
-{text:"Share selectively but honestly.",type:"NR"},
-{text:"Open up depending on comfort.",type:"CE",hidden:"Emotional Safety"},
-{text:"Hold back because you overthink how your words may land.",type:"US",hidden:"Fear of Misinterpretation"},
-{text:"Express openly and comfortably.",type:"EE"}
-]
-},
-
-{
-question:`At one point, everyone around you seems socially effortless.
-
-What thought feels closest to your experience?`,
-options:[
-{text:"I enjoy being quieter than most people.",type:"NR"},
-{text:"Comfort matters more than social skill to me.",type:"CE"},
-{text:"I start comparing my behavior with others.",type:"US",hidden:"Self-Monitoring"},
-{text:"I feel naturally connected to the interaction.",type:"EE"}
-]
-},
-
-{
-question:`Someone makes a joke about you in a playful way and the group laughs.
-
-Your first internal reaction is:`,
-options:[
-{text:"I take it lightly.",type:"EE"},
-{text:"Depends on the intention and comfort level.",type:"CE"},
-{text:"I immediately become self-aware.",type:"US",hidden:"Fear of Misinterpretation"},
-{text:"I smile quietly and move on.",type:"NR"}
-]
-},
-
-{
-question:`As the party becomes louder and more energetic, how do you feel?`,
-options:[
-{text:"Mentally overstimulated.",type:"NR",hidden:"Energy Protector"},
-{text:"Socially tired but still okay.",type:"CE"},
-{text:"Exhausted from constantly managing yourself socially.",type:"US",hidden:"Self-Monitoring"},
-{text:"More energized by the environment.",type:"EE"}
-]
-},
-
-{
-question:`You step away from the crowd for a few minutes.
-
-Why?`,
-options:[
-{text:"I need quiet to recharge.",type:"NR",hidden:"Energy Protector"},
-{text:"I like balancing interaction with personal space.",type:"CE"},
-{text:"I feel mentally overwhelmed by social pressure.",type:"US",hidden:"Overprocessor"},
-{text:"I rarely feel the need to step away.",type:"EE"}
-]
-},
-
-{
-question:`Later, someone you found interesting starts talking to you one-on-one.
-
-What changes most in your behavior?`,
-options:[
-{text:"I become calmer and more genuine.",type:"NR"},
-{text:"Comfort slowly helps me open up.",type:"CE",hidden:"Emotional Safety"},
-{text:"I still worry about saying the wrong thing.",type:"US",hidden:"Self-Monitoring"},
-{text:"I express myself naturally and confidently.",type:"EE"}
-]
-},
-
-{
-question:`The party ends and you return home.
-
-What happens next?`,
-options:[
-{text:"I enjoy the silence and solitude afterward.",type:"NR"},
-{text:"I reflect casually on the experience.",type:"CE"},
-{text:"I replay conversations and analyze myself deeply.",type:"US",hidden:"Overprocessor"},
-{text:"I still feel socially energized.",type:"EE"}
-]
-},
-
-{
-question:`The next morning, while thinking about the evening, which statement feels most true?`,
-options:[
-{text:"I liked parts of it, but I still deeply value my own space.",type:"NR"},
-{text:"The experience mostly depended on comfort and connection.",type:"CE"},
-{text:"I spent too much energy monitoring myself.",type:"US",hidden:"Self-Monitoring"},
-{text:"I genuinely enjoy expressing myself around people.",type:"EE"}
-]
-},
-
-{
-question:`Finally, which sentence feels closest to your deeper truth?`,
-options:[
-{text:"I naturally express myself quietly.",type:"NR"},
-{text:"I express myself differently depending on people and emotional safety.",type:"CE",hidden:"Emotional Safety"},
-{text:"I often hold back more than I truly want to.",type:"US",hidden:"Fear of Misinterpretation"},
-{text:"I feel most like myself when I can openly engage and express.",type:"EE"}
-]
-}
-
-];
-
-let currentQuestion = 0;
-let selected = null;
-
-let scores = {
-NR:0,
-CE:0,
-US:0,
-EE:0
-};
-
-let hiddenScores = {};
+let cur=0,selected=null;
+let scores={NR:0,CE:0,US:0,EE:0};
+let hidden={};
 
 function startQuiz(){
-document.getElementById("intro").style.display="none";
-document.getElementById("quiz").style.display="block";
-showQuestion();
+  document.getElementById('intro').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
 }
 
-function showQuestion(){
+function showQ(){
+  const q=questions[cur];
+  document.getElementById('prog-text').textContent=`${cur+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width=`${((cur)/questions.length)*100}%`;
+  document.getElementById('q-num').textContent=`Question ${cur+1}`;
 
-const q = questions[currentQuestion];
+  const wrap=document.getElementById('q-wrap');
+  wrap.style.animation='none';
+  void wrap.offsetWidth;
+  wrap.style.animation='fadeUp 0.4s ease both';
 
-document.getElementById("progress").innerHTML =
-`Question ${currentQuestion+1} of ${questions.length}`;
+  document.getElementById('q-text').textContent=q.question;
 
-document.getElementById("question").innerText = q.question;
-
-let optionsHTML = "";
-
-q.options.forEach((option,index)=>{
-
-optionsHTML += `
-<div class="option" onclick="selectOption(${index}, this)">
-${option.text}
-</div>
-`;
-
-});
-
-document.getElementById("options").innerHTML = optionsHTML;
-
-selected = null;
-
+  let html='';
+  q.options.forEach((o,i)=>{
+    html+=`<button class="option" onclick="pick(${i},this)"><div class="opt-marker"><div class="opt-check"></div></div><div class="opt-label">${o.text}</div></button>`;
+  });
+  document.getElementById('options').innerHTML=html;
+  selected=null;
 }
 
-function selectOption(index, element){
+document.getElementById('prog-text').textContent=`1 / ${questions.length}`;
 
-selected = questions[currentQuestion].options[index];
-
-document.querySelectorAll(".option").forEach(el=>{
-el.classList.remove("selected");
-});
-
-element.classList.add("selected");
-
+function pick(i,el){
+  selected=questions[cur].options[i];
+  document.querySelectorAll('.option').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
 function nextQuestion(){
-
-if(!selected){
-alert("Please select an option.");
-return;
+  if(!selected){
+    document.getElementById('q-wrap').style.animation='none';
+    void document.getElementById('q-wrap').offsetWidth;
+    document.getElementById('q-wrap').style.animation='shake 0.3s ease';
+    return;
+  }
+  scores[selected.type]++;
+  if(selected.hidden){hidden[selected.hidden]=(hidden[selected.hidden]||0)+1;}
+  cur++;
+  if(cur<questions.length){showQ();}else{showResult();}
 }
 
-scores[selected.type]++;
+function getTop(obj){return Object.keys(obj).reduce((a,b)=>obj[a]>obj[b]?a:b);}
 
-if(selected.hidden){
-
-if(hiddenScores[selected.hidden]){
-hiddenScores[selected.hidden]++;
-}else{
-hiddenScores[selected.hidden]=1;
-}
-
-}
-
-currentQuestion++;
-
-if(currentQuestion < questions.length){
-showQuestion();
-}else{
-showResult();
-}
-
-}
-
-function getHighest(obj){
-
-return Object.keys(obj).reduce((a,b)=>
-obj[a] > obj[b] ? a : b
-);
-
-}
+const results={
+  NR:{
+    icon:'🌿',
+    title:'Quietly Expressive',
+    insight:'You naturally express yourself in calmer, more selective ways. You don\'t feel the need to fill space or externally process every thought. Your silence often comes from preference — not fear.',
+    blind:'People may sometimes mistake your quietness for disinterest, even when you\'re fully present.',
+    reflection:'Not every meaningful connection requires high energy. Depth often lives in the spaces between words.',
+    color:'#4a7c59'
+  },
+  CE:{
+    icon:'⚖️',
+    title:'Context-Driven Expressive',
+    insight:'You express yourself differently depending on emotional safety, comfort, and connection. You are neither fully reserved nor fully expressive — you calibrate in real time.',
+    blind:'You sometimes wait too long for the perfect conditions before letting yourself be seen.',
+    reflection:'The right environment matters — but sometimes connection starts when you risk expression first.',
+    color:'#7a6a4a'
+  },
+  US:{
+    icon:'🌊',
+    title:'Underexpressed Self',
+    insight:'You may be holding yourself back more than you realize. A lot of your silence comes from self-monitoring, overthinking, or fear of judgment — not lack of personality.',
+    blind:'You may confuse emotional protection with personality. The quietness isn\'t always who you are.',
+    reflection:'Growth may not require becoming louder — only reducing the internal commentary that filters your expression.',
+    color:'#4a5a7a'
+  },
+  EE:{
+    icon:'🔥',
+    title:'Naturally Expressive',
+    insight:'You naturally connect, engage, and process life outwardly. Expression feels energizing rather than draining. You tend to create warmth and movement in social environments.',
+    blind:'Constant engagement can sometimes create distance from quieter, more reflective parts of yourself.',
+    reflection:'Expression is your strength. Depth sometimes grows in quieter spaces too.',
+    color:'#7a4a3a'
+  }
+};
 
 function showResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='block';
 
-document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="block";
+  const t=getTop(scores);
+  const r=results[t];
+  const hl=Object.keys(hidden).length>0?getTop(hidden):'None detected';
 
-const mainType = getHighest(scores);
+  document.getElementById('result-inner').innerHTML=`
+    <div class="result-header" style="animation:fadeUp 0.5s ease both">
+      <div class="result-label">Your Expression Type</div>
+      <span class="result-type-icon">${r.icon}</span>
+      <div class="result-type">${r.title}</div>
+      <div class="result-rule"></div>
+    </div>
 
-const hiddenLayer = Object.keys(hiddenScores).length > 0
-? getHighest(hiddenScores)
-: "None";
+    <div class="result-blocks">
 
-let resultHTML = "";
+      <div class="result-block">
+        <div class="block-tag">Core Profile</div>
+        <div class="block-heading">What this says about you</div>
+        <div class="block-body">${r.insight}</div>
+      </div>
 
-if(mainType==="NR"){
+      <div class="result-block">
+        <div class="block-tag">Hidden Layer</div>
+        <div class="highlight-pill">${hl}</div>
+        <div class="block-body">Your subconscious patterns — the invisible forces shaping how much of yourself you reveal — consistently pointed here. This layer often runs deeper than your primary type.</div>
+      </div>
 
-resultHTML = `
-<div class="result-title">🌿 Quietly Expressive</div>
+      <div class="result-block">
+        <div class="block-tag">Blind Spot</div>
+        <div class="block-heading">What you may not see</div>
+        <div class="block-body">${r.blind}</div>
+      </div>
 
-<div class="result-section">
-<h3>🧠 What this says about you</h3>
-<p class="result-sub">
-You naturally express yourself in calmer, more selective ways.
+      <div class="result-block">
+        <div class="block-tag">Reflection</div>
+        <div class="block-heading">Something to carry with you</div>
+        <div class="block-body">${r.reflection}</div>
+      </div>
 
-You don’t always feel the need to fill space, speak constantly, or externally process every thought. Your silence often comes from preference—not fear.
-</p>
-</div>
+    </div>
 
-<div class="result-section">
-<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
-<p class="result-sub">
-You subconsciously protect your energy and emotional bandwidth more than most people realize.
-</p>
-</div>
-
-<div class="result-section">
-<h3>⚠️ Your Blind Spot</h3>
-<p class="result-sub">
-Sometimes people may mistake your quietness for disinterest.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🔄 Reflection</h3>
-<p class="result-sub">
-Not every meaningful connection requires high energy.
-</p>
-</div>
-`;
-
+    <button class="retake-btn" onclick="retake()">
+      ← Retake Assessment
+    </button>
+  `;
 }
 
-if(mainType==="CE"){
-
-resultHTML = `
-<div class="result-title">⚖️ Context-Driven Expressive</div>
-
-<div class="result-section">
-<h3>🧠 What this says about you</h3>
-<p class="result-sub">
-You express yourself differently depending on emotional safety, comfort, and connection.
-
-You are neither fully reserved nor fully expressive all the time.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
-<p class="result-sub">
-Your openness depends deeply on the emotional atmosphere around you.
-</p>
-</div>
-
-<div class="result-section">
-<h3>⚠️ Your Blind Spot</h3>
-<p class="result-sub">
-Sometimes you wait too long for perfect comfort before expressing yourself fully.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🔄 Reflection</h3>
-<p class="result-sub">
-The right environment matters—but sometimes connection starts when you risk expression first.
-</p>
-</div>
-`;
-
+function retake(){
+  cur=0;selected=null;scores={NR:0,CE:0,US:0,EE:0};hidden={};
+  document.getElementById('result').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
 }
 
-if(mainType==="US"){
-
-resultHTML = `
-<div class="result-title">🌊 Underexpressed Self</div>
-
-<div class="result-section">
-<h3>🧠 What this says about you</h3>
-<p class="result-sub">
-You may be holding yourself back more than you realize.
-
-A lot of your silence comes from self-monitoring, overthinking, emotional caution, or fear of judgment—not lack of personality.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
-<p class="result-sub">
-You often evaluate yourself while interacting instead of fully experiencing the interaction naturally.
-</p>
-</div>
-
-<div class="result-section">
-<h3>⚠️ Your Blind Spot</h3>
-<p class="result-sub">
-You may mistake emotional protection for personality.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🔄 Reflection</h3>
-<p class="result-sub">
-Growth may not require becoming louder—only reducing self-monitoring.
-</p>
-</div>
-`;
-
-}
-
-if(mainType==="EE"){
-
-resultHTML = `
-<div class="result-title">🔥 Naturally Expressive</div>
-
-<div class="result-section">
-<h3>🧠 What this says about you</h3>
-<p class="result-sub">
-You naturally connect, engage, and process life outwardly.
-
-Expression feels energizing rather than draining for you.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🧩 Hidden Layer: ${hiddenLayer}</h3>
-<p class="result-sub">
-You naturally create energy and movement in social environments.
-</p>
-</div>
-
-<div class="result-section">
-<h3>⚠️ Your Blind Spot</h3>
-<p class="result-sub">
-Sometimes constant engagement can distance you from quieter reflection.
-</p>
-</div>
-
-<div class="result-section">
-<h3>🔄 Reflection</h3>
-<p class="result-sub">
-Expression is your strength. Depth sometimes grows in quieter spaces too.
-</p>
-</div>
-`;
-
-}
-
-document.getElementById("result").innerHTML = resultHTML;
-
-}
+/* fix prog-text init */
+document.getElementById('prog-fill').style.width='0%';
 
 </script>
 
+<style>
+@keyframes shake{
+  0%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(5px);}
+  100%{transform:translateX(0);}
+}
+</style>
+
 </body>
 </html>
-```
