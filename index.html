@@ -664,84 +664,113 @@ const results={
   NR:{
     icon:'🌿',
     title:'Quietly Expressive',
+    tagline:'Your silence is a choice, not a limitation.',
     insight:'You naturally express yourself in calmer, more selective ways. You don\'t feel the need to fill space or externally process every thought. Your silence often comes from preference — not fear.',
     blind:'People may sometimes mistake your quietness for disinterest, even when you\'re fully present.',
     reflection:'Not every meaningful connection requires high energy. Depth often lives in the spaces between words.',
-    color:'#4a7c59'
+    quote:'Stillness is its own kind of expression.',
+    accentBg:'#e8f2ec',accentText:'#2d6b45',accentBorder:'#a8d5b8'
   },
   CE:{
     icon:'⚖️',
     title:'Context-Driven Expressive',
+    tagline:'You read the room before you reveal yourself.',
     insight:'You express yourself differently depending on emotional safety, comfort, and connection. You are neither fully reserved nor fully expressive — you calibrate in real time.',
     blind:'You sometimes wait too long for the perfect conditions before letting yourself be seen.',
     reflection:'The right environment matters — but sometimes connection starts when you risk expression first.',
-    color:'#7a6a4a'
+    quote:'Adaptability is a quiet kind of strength.',
+    accentBg:'#f5f0e8',accentText:'#6b5230',accentBorder:'#d4b88a'
   },
   US:{
     icon:'🌊',
     title:'Underexpressed Self',
+    tagline:'There is more of you waiting to be heard.',
     insight:'You may be holding yourself back more than you realize. A lot of your silence comes from self-monitoring, overthinking, or fear of judgment — not lack of personality.',
     blind:'You may confuse emotional protection with personality. The quietness isn\'t always who you are.',
     reflection:'Growth may not require becoming louder — only reducing the internal commentary that filters your expression.',
-    color:'#4a5a7a'
+    quote:'Your unspoken self deserves a voice too.',
+    accentBg:'#eaecf5',accentText:'#2d3a6b',accentBorder:'#a8b0d8'
   },
   EE:{
     icon:'🔥',
     title:'Naturally Expressive',
+    tagline:'You come alive when you connect.',
     insight:'You naturally connect, engage, and process life outwardly. Expression feels energizing rather than draining. You tend to create warmth and movement in social environments.',
     blind:'Constant engagement can sometimes create distance from quieter, more reflective parts of yourself.',
     reflection:'Expression is your strength. Depth sometimes grows in quieter spaces too.',
-    color:'#7a4a3a'
+    quote:'Your energy leaves a mark on every room you enter.',
+    accentBg:'#f5ede8',accentText:'#6b3020',accentBorder:'#d4a08a'
   }
 };
 
 function showResult(){
   document.getElementById('quiz').style.display='none';
   document.getElementById('result').style.display='block';
+  window.scrollTo(0,0);
 
   const t=getTop(scores);
   const r=results[t];
   const hl=Object.keys(hidden).length>0?getTop(hidden):'None detected';
 
   document.getElementById('result-inner').innerHTML=`
-    <div class="result-header" style="animation:fadeUp 0.5s ease both">
-      <div class="result-label">Your Expression Type</div>
-      <span class="result-type-icon">${r.icon}</span>
-      <div class="result-type">${r.title}</div>
-      <div class="result-rule"></div>
+    <div class="res-hero" style="background:${r.accentBg};border-left:4px solid ${r.accentBorder}">
+      <div class="res-eyebrow" style="color:${r.accentText}">Your Expression Type</div>
+      <div class="res-icon">${r.icon}</div>
+      <div class="res-title" style="color:${r.accentText}">${r.title}</div>
+      <div class="res-tagline">${r.tagline}</div>
     </div>
 
-    <div class="result-blocks">
-
-      <div class="result-block">
-        <div class="block-tag">Core Profile</div>
-        <div class="block-heading">What this says about you</div>
-        <div class="block-body">${r.insight}</div>
+    <div class="res-score-row">
+      <div class="res-score-item">
+        <div class="res-score-val" style="color:${r.accentText}">${scores[t]}</div>
+        <div class="res-score-label">Matching answers</div>
       </div>
-
-      <div class="result-block">
-        <div class="block-tag">Hidden Layer</div>
-        <div class="highlight-pill">${hl}</div>
-        <div class="block-body">Your subconscious patterns — the invisible forces shaping how much of yourself you reveal — consistently pointed here. This layer often runs deeper than your primary type.</div>
+      <div class="res-score-divider"></div>
+      <div class="res-score-item">
+        <div class="res-score-val">15</div>
+        <div class="res-score-label">Total questions</div>
       </div>
-
-      <div class="result-block">
-        <div class="block-tag">Blind Spot</div>
-        <div class="block-heading">What you may not see</div>
-        <div class="block-body">${r.blind}</div>
+      <div class="res-score-divider"></div>
+      <div class="res-score-item">
+        <div class="res-score-val res-hl-val" style="color:${r.accentText}">${hl}</div>
+        <div class="res-score-label">Hidden pattern</div>
       </div>
-
-      <div class="result-block">
-        <div class="block-tag">Reflection</div>
-        <div class="block-heading">Something to carry with you</div>
-        <div class="block-body">${r.reflection}</div>
-      </div>
-
     </div>
 
-    <button class="retake-btn" onclick="retake()">
-      ← Retake Assessment
-    </button>
+    <div class="res-card res-card--main">
+      <div class="res-card-num" style="color:${r.accentBorder}">01</div>
+      <div class="res-card-tag">Core Profile</div>
+      <div class="res-card-heading">What this says about you</div>
+      <div class="res-card-body">${r.insight}</div>
+    </div>
+
+    <div class="res-card res-card--hidden" style="background:${r.accentBg}">
+      <div class="res-card-num" style="color:${r.accentBorder}">02</div>
+      <div class="res-card-tag">Hidden Layer</div>
+      <div class="res-hidden-pill" style="background:${r.accentBorder};color:#fff">${hl}</div>
+      <div class="res-card-body">Your subconscious patterns — the invisible forces shaping how much of yourself you reveal — consistently pointed here. This layer often runs deeper than your primary type.</div>
+    </div>
+
+    <div class="res-two-col">
+      <div class="res-card res-card--blind">
+        <div class="res-card-num" style="color:${r.accentBorder}">03</div>
+        <div class="res-card-tag">Blind Spot</div>
+        <div class="res-card-heading">What you may not see</div>
+        <div class="res-card-body">${r.blind}</div>
+      </div>
+      <div class="res-card res-card--reflect">
+        <div class="res-card-num" style="color:${r.accentBorder}">04</div>
+        <div class="res-card-tag">Reflection</div>
+        <div class="res-card-heading">Carry this with you</div>
+        <div class="res-card-body">${r.reflection}</div>
+      </div>
+    </div>
+
+    <div class="res-footer-quote" style="border-left:3px solid ${r.accentBorder}">
+      "${r.quote}"
+    </div>
+
+    <button class="res-retake" onclick="retake()">← Retake Assessment</button>
   `;
 }
 
@@ -766,6 +795,101 @@ document.getElementById('prog-fill').style.width='0%';
   80%{transform:translateX(5px);}
   100%{transform:translateX(0);}
 }
+
+/* ── RESULT PAGE ── */
+#result{padding-bottom:80px;}
+
+.res-hero{
+  padding:36px 40px;
+  margin:0 -48px 32px;
+  animation:fadeUp 0.5s ease both;
+}
+@media(max-width:560px){.res-hero{margin:0 -24px 28px;padding:28px 24px;}}
+
+.res-eyebrow{
+  font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+  font-weight:500;margin-bottom:14px;
+}
+.res-icon{font-size:36px;margin-bottom:12px;line-height:1;}
+.res-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:400;line-height:1.1;margin-bottom:10px;
+}
+.res-tagline{
+  font-size:13px;font-weight:300;color:var(--muted);
+  font-style:italic;line-height:1.6;
+}
+
+.res-score-row{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--line);
+  margin-bottom:28px;
+  animation:fadeUp 0.5s 0.1s ease both;
+}
+.res-score-item{
+  flex:1;padding:20px 16px;text-align:center;
+}
+.res-score-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:400;line-height:1;margin-bottom:6px;color:var(--ink);
+}
+.res-hl-val{font-size:14px;font-weight:500;padding-top:4px;}
+.res-score-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.res-score-divider{width:1px;height:60px;background:var(--line);flex-shrink:0;}
+
+.res-card{
+  padding:28px 30px;border:1px solid var(--line);
+  margin-bottom:12px;position:relative;
+  animation:fadeUp 0.5s ease both;background:var(--paper);
+}
+.res-card:nth-child(3){animation-delay:0.15s;}
+.res-card:nth-child(4){animation-delay:0.2s;}
+
+.res-card-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;font-weight:300;line-height:1;
+  position:absolute;top:20px;right:24px;opacity:0.18;
+}
+.res-card-tag{
+  font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+}
+.res-card-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:400;color:var(--ink);margin-bottom:12px;
+}
+.res-card-body{
+  font-size:13px;font-weight:300;line-height:1.85;color:var(--muted);
+}
+
+.res-hidden-pill{
+  display:inline-block;padding:4px 14px;
+  font-size:11px;font-weight:500;letter-spacing:0.06em;
+  border-radius:2px;margin-bottom:12px;
+}
+
+.res-two-col{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;
+}
+@media(max-width:520px){.res-two-col{grid-template-columns:1fr;}}
+.res-two-col .res-card{margin-bottom:0;}
+
+.res-footer-quote{
+  padding:24px 24px;margin:20px 0 32px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;font-style:italic;font-weight:300;
+  color:var(--accent);line-height:1.6;
+  animation:fadeUp 0.5s 0.3s ease both;
+}
+
+.res-retake{
+  display:inline-flex;align-items:center;gap:10px;
+  background:transparent;border:none;padding:0;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:12px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted);transition:color 0.3s;
+}
+.res-retake:hover{color:var(--gold);}
 </style>
 
 </body>
